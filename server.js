@@ -3,8 +3,8 @@ const dotenv = require('dotenv');
 const morgan = require('morgan');
 const bodyparser = require("body-parser");
 const path = require('path');
+const mongoose = require('mongoose');
 
-//const connectDB = require('./server/database/connection');
 
 const app = express();
 //separate the crenditials
@@ -14,20 +14,19 @@ const PORT = process.env.PORT || 8080
 // log requests
 app.use(morgan('tiny'));
 
-app.get('/',(req, res)=>{
-    res.render('index');
-})
-
-app.get('/add_user',(req, res)=>{
-    res.render('add_user');
-})
-
 // mongodb connection
-//connectDB();
+mongoose.connect(process.env.MONGO_URI);
+
+mongoose.connection.on('error', (err) => {
+    console.log('Mongodb error ', err, '.');
+    process.exit();
+});
+mongoose.connection.on('connected', () => {
+    console.log('MongoDB successfully connected.');
+});
 
 // parse request to body-parser
 app.use(bodyparser.urlencoded({ extended : true}))
-
 
 var cons = require('consolidate');
 
@@ -41,7 +40,8 @@ app.use('/css', express.static(path.resolve(__dirname, "assets/css")))
 app.use('/img', express.static(path.resolve(__dirname, "assets/img")))
 app.use('/js', express.static(path.resolve(__dirname, "assets/js")))
 
+
 // load routers
-//app.use('/', require('./server/routes/router'))
+app.use('/', require('./server/routes/router'))
 
 app.listen(PORT, ()=> { console.log(`Server is running on http://localhost:${PORT}`)});
