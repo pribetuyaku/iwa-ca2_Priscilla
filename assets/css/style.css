@@ -5,6 +5,7 @@
     --light: #adb5bd;
     --border: #dee2e6;
     --border-btn: #edf2f4;
+    --white:#ffffff;
 }
 
 * {
@@ -48,6 +49,10 @@ a {
 
 .text-dark{
     color: var(--dark);
+}
+
+.text-white{
+    color: var(--white);
 }
 
 .inline{
