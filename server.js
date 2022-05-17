@@ -28,12 +28,12 @@ mongoose.connection.on('connected', () => {
 // parse request to body-parser
 app.use(bodyparser.urlencoded({ extended : true}))
 
-var cons = require('consolidate');
+//var cons = require('consolidate');
 
 // view engine setup
-app.engine('html', cons.swig)
+//app.engine('html', cons.swig)
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'html');
+app.set('view engine', 'ejs');
 
 // load assets
 app.use('/css', express.static(path.resolve(__dirname, "assets/css")))
